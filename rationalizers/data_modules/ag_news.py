@@ -47,10 +47,10 @@ class AgNewsDataModule(BaseDataModule):
             ],
             padding_index=constants.PAD_ID,
             unknown_index=constants.UNK_ID,
-            eos_index=constants.EOS_ID,
-            sos_index=constants.SOS_ID,
-            append_sos=False,
-            append_eos=False,
+            # eos_index=constants.EOS_ID,
+            # sos_index=constants.SOS_ID,
+            # append_sos=False,
+            # append_eos=False,   ### comment out --> works old versoin 
         )
 
     def _collate_fn(self, samples: list, are_samples_batched: bool = False):

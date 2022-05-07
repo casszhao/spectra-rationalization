@@ -7,7 +7,7 @@ from lpsmap import (
     Budget,
     Pair,
     Sequence,
-    SequenceBudget,
+    #SequenceBudget,
     TorchFactorGraph,
     Xor,
     AtMostOne,
