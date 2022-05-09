@@ -8,9 +8,10 @@ from rationalizers.data_modules import available_data_modules
 from rationalizers.lightning_models import available_models
 from rationalizers.utils import (
     setup_wandb_logger,
+    setup_csv_logger,
     save_config_to_csv,
 )
-
+CUDA_LAUNCH_BLOCKING=1
 shell_logger = logging.getLogger(__name__)
 
 
@@ -23,7 +24,15 @@ def run(args):
     dm.setup()
 
     shell_logger.info("Building board loggers...")
-    logger = setup_wandb_logger(args.default_root_dir)
+
+    # replace logger
+    # logger = setup_wandb_logger(args.default_root_dir)
+    # logger = setup_csv_logger(args.default_root_dir)
+    import uuid
+    id = uuid.uuid4()
+    version = str(id.fields[1])
+    project = "SPECTRA"
+    save_dir = args.default_root_dir
 
     if "ckpt" in dict_args.keys():
         shell_logger.info("Building model: {}...".format(args.model))
@@ -54,7 +63,8 @@ def run(args):
             checkpoint_callback = ModelCheckpoint(
                 dirpath=os.path.join(
                     args.default_root_dir,
-                    f"version{logger.version}",
+                    # f"version{logger.version}",
+                    f"version{version}",
                     "checkpoints",
                 ),
                 filename="{epoch}",
@@ -65,7 +75,8 @@ def run(args):
             checkpoint_callback = ModelCheckpoint(
                 dirpath=os.path.join(
                     args.default_root_dir,
-                    f"version{logger.version}",
+                    # f"version{logger.version}",
+                    f"version{version}",
                     "checkpoints",
                 ),
                 filename="{epoch}",
@@ -85,7 +96,7 @@ def run(args):
         shell_logger.info("Building trainer...")
         trainer = Trainer.from_argparse_args(
             args,
-            logger=logger,
+            # logger=logger,
             callbacks=callbacks,
             checkpoint_callback=checkpoint_callback,
             weights_summary="full",

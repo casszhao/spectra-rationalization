@@ -1,0 +1,14 @@
+Exception has occurred: ImportError
+cannot import name 'SequenceBudget' from 'lpsmap' (/home/cass/PycharmProjects/lp-sparsemap/lpsmap/__init__.py)
+  File "/home/cass/PycharmProjects/spectra-rationalization/rationalizers/modules/sparsemap.py", line 6, in <module>
+    from lpsmap import (
+  File "/home/cass/PycharmProjects/spectra-rationalization/rationalizers/modules/generators.py", line 11, in <module>
+    from rationalizers.modules.sparsemap import (
+  File "/home/cass/PycharmProjects/spectra-rationalization/rationalizers/lightning_models/highlights/bernoulli.py", line 11, in <module>
+    from rationalizers.modules.generators import (
+  File "/home/cass/PycharmProjects/spectra-rationalization/rationalizers/lightning_models/__init__.py", line 1, in <module>
+    from rationalizers.lightning_models.highlights.bernoulli import BernoulliRationalizer
+  File "/home/cass/PycharmProjects/spectra-rationalization/rationalizers/predict.py", line 7, in <module>
+    from rationalizers.lightning_models import available_models
+  File "/home/cass/PycharmProjects/spectra-rationalization/rationalizers/__main__.py", line 4, in <module>
+    from rationalizers import predict, train, resume
