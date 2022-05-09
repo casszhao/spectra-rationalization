@@ -152,3 +152,5 @@ class SPECTRARationalizer(BaseRationalizer):
         stats[prefix + "_ps"] = (num_c + num_1) / float(total)
 
         return loss, stats
+
+

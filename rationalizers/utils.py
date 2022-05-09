@@ -14,7 +14,7 @@ import torch
 import yaml
 from pytorch_lightning import seed_everything
 from pytorch_lightning.core.saving import load_hparams_from_tags_csv
-from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.loggers import WandbLogger, CSVLogger
 from torchnlp.encoders.text import StaticTokenizerEncoder
 from torchnlp.word_to_vector import GloVe
 
@@ -107,6 +107,18 @@ def load_yaml_config(path: str):
         cfg = yaml.safe_load(ymlfile)
     return cfg
 
+def setup_csv_logger(default_root_dir: str):
+    """
+    Function that sets the CSVLogger to be used.
+
+    :param default_root_dir: logs save dir.
+    """
+    id = uuid.uuid4()
+    return CSVLogger(
+        project="SPECTRA",
+        save_dir=default_root_dir,
+        version=str(id.fields[1]),
+    )
 
 def setup_wandb_logger(default_root_dir: str):
     """

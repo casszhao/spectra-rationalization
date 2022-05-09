@@ -42,7 +42,7 @@ To train a model you need to define a `.yaml` config. We have made available sev
 
 Train **SPECTRA** on *AgNews*: 
 ```bash
-python3 -W ignore rationalizers train --config configs/agnews/agnews_spectra
+python -m rationalizers train --config configs/agnews/agnews_spectra.yaml
 ```
 
 Train **HardKuma** on *IMDB*:

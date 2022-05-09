@@ -13,6 +13,16 @@
             "args": [
                 "train", "--config", "configs/agnews/agnews_spectra.yaml"
             ]
+        },
+        {
+            "name": "Python: Check torch",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/check_torch.py",
+            "justMyCode": true,
+            "args": [
+                "train", "--config", "configs/agnews/agnews_spectra.yaml"
+            ]
         }
     ]
 }
