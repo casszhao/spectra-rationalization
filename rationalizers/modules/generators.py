@@ -9,8 +9,10 @@ from torch import nn
 from rationalizers.builders import build_sentence_encoder
 from rationalizers.modules.gates import BernoulliGate, RelaxedBernoulliGate, KumaGate
 from rationalizers.modules.sparsemap import (
-    seq_budget_smap,
+    matching_smap_atmostone_budget,
 )
+
+
 
 
 class SPECTRAGenerator(nn.Module):
@@ -96,34 +98,59 @@ class SPECTRAGenerator(nn.Module):
             self.step_size = 0.0
 
             if self.training:
-                z_probs = seq_budget_smap(
+                z_probs = matching_smap_atmostone_budget(
                     x,
                     transition,
                     budget=budget,
                     temperature=self.temperature,
                     init=self.init,
-                    max_iter=self.max_iter,
-                    step_size=self.step_size,
+                    # max_iter=self.max_iter,
+                    #step_size=self.step_size,
                 )
             else:
                 test_temperature = 1e-3
-                z_probs = seq_budget_smap(
+                z_probs = matching_smap_atmostone_budget(
                     x / test_temperature,
                     transition / test_temperature,
                     budget=budget,
                     temperature=test_temperature,
                     init=self.init,
-                    max_iter=self.max_iter,
-                    step_size=self.step_size,
+                    #max_iter=self.max_iter,
+                    #step_size=self.step_size,
                 )
+            # def matching_smap_atmostone_budget(scores, max_iter=5, temperature=1, init=True, budget=None
 
+            print('000000000000',z_probs)
             z_probs.cuda()
+            
+            
             z.append(z_probs)
 
-        z = torch.stack(z, dim=0).squeeze(-1)  # [B, T]
+
+        print('  ----------  z.size()', torch.stack(z, dim=0).size())
+
+        #z = torch.stack(z, dim=0).squeeze(-1)  # [B, T]
+        z = torch.stack(z, dim=0)[:,:,0].squeeze(-1)  # [B, T]
+        print(z.size())
         z = z.cuda()
-        z = torch.where(mask, z, z.new_zeros([1]))
+        print(mask)
+        print('  -  mask.size()',mask.size())
+        # print(mask.repeat(1,1,2).size()) #mask.repeat(1,1,2)
+        # print(mask.repeat(2,1,1).size())
+        # print(mask.repeat(1,2,1).size())
+        # print(mask.repeat(2,2,1).size())
+        
+        
+        print(z)
+        print('  -  z.size()',z.size())
+
+        # print(z.new_zeros([1]))
+        # print(z.new_zeros([1]).size())
+        #z = torch.where(torch.stack((mask,mask), dim = 2), z, z.new_zeros([1]))#z.new_zeros([1])
+        z = torch.where(mask, z, z.new_zeros([1]))#z.new_zeros([1])
         self.z = z
+        print(z)
+        print('  -  z.size()',z.size())
 
         return z
 
