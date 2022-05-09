@@ -57,7 +57,7 @@ train:
     transition: 0.001
     max_iter: 1
     budget: 20
-    factor: "seq-budget"
+    factor: "atmostone" #"seq-budget"
     temperature: 0.05
 
     # trainer (will be passed to pytorch-lightning's Trainer object)

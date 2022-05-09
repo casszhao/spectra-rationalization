@@ -30,7 +30,7 @@ def seq_budget_smap(
 
     fg = TorchFactorGraph()
     u = fg.variable_from(unary_scores)
-    fg.add(SequenceBudget(u, transition_scores, budget))
+    fg.add(AtMostOne(u, transition_scores, budget)) #
     fg.solve(max_iter=max_iter, step_size=step_size)
     u.value.cuda()
     return u.value[:, 0]
