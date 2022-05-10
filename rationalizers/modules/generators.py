@@ -120,37 +120,29 @@ class SPECTRAGenerator(nn.Module):
                 )
             # def matching_smap_atmostone_budget(scores, max_iter=5, temperature=1, init=True, budget=None
 
-            print('000000000000',z_probs)
             z_probs.cuda()
             
             
             z.append(z_probs)
 
-
-        print('  ----------  z.size()', torch.stack(z, dim=0).size())
-
         #z = torch.stack(z, dim=0).squeeze(-1)  # [B, T]
         z = torch.stack(z, dim=0)[:,:,0].squeeze(-1)  # [B, T]
-        print(z.size())
+
         z = z.cuda()
-        print(mask)
-        print('  -  mask.size()',mask.size())
+
         # print(mask.repeat(1,1,2).size()) #mask.repeat(1,1,2)
         # print(mask.repeat(2,1,1).size())
         # print(mask.repeat(1,2,1).size())
         # print(mask.repeat(2,2,1).size())
         
         
-        print(z)
-        print('  -  z.size()',z.size())
 
         # print(z.new_zeros([1]))
         # print(z.new_zeros([1]).size())
         #z = torch.where(torch.stack((mask,mask), dim = 2), z, z.new_zeros([1]))#z.new_zeros([1])
         z = torch.where(mask, z, z.new_zeros([1]))#z.new_zeros([1])
         self.z = z
-        print(z)
-        print('  -  z.size()',z.size())
+
 
         return z
 

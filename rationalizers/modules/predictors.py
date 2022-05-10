@@ -54,19 +54,17 @@ class SentimentPredictor(nn.Module):
         # apply z to main inputs
         if z is not None:
             # mask = torch.stack([mask, mask],dim=2)
-            # print(mask)
-            print('mask',mask.size())
-            print('z.size',z.size())
-            print(z)
+            # # print(mask)
+            # print('mask',mask.size())
+            # print('z.size',z.size())
+            # print(z)
             # z_mask = (torch.stack((mask,mask), dim = 2) * z)#.unsqueeze(-1)  # [B, T, 1]
             # print('z_mask', z_mask.size())
             # print(z_mask)
             z_mask = (mask.float() * z).unsqueeze(-1)  # [B, T, 1]
-            print('**********z_mask', z_mask.size())
 
             rnn_mask = z_mask.squeeze(-1) > 0.0  # z could be continuous
-            print('rnn_mask', rnn_mask.size())
-            print('emb.size()',emb.size())
+
             emb = emb * z_mask
 
         # z is also used to control when the encoder layer is active

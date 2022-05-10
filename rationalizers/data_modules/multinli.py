@@ -48,7 +48,7 @@ class MultiNLIDataModule(BaseDataModule):
             padding_index=constants.PAD_ID,
             unknown_index=constants.UNK_ID,
             eos_index=constants.EOS_ID,
-            sos_index=constants.SOS_ID,
+            #sos_index=constants.SOS_ID,
             append_sos=False,
             append_eos=False,
         )
