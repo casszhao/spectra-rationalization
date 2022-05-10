@@ -38,7 +38,7 @@ _DESCRIPTION = """\
 This dataset consists of hotel reviews from TripAdvisor
 """
 
-_URL = "http://web.tecnico.ulisboa.pt/~ist178550/hotel_location_proc.zip"
+_URL = "https://github.com/casszhao/datasets/raw/main/factcheck.zip"
 
 
 class HotelLocationDatasetConfig(datasets.BuilderConfig):
@@ -72,12 +72,12 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
             # This defines the different columns of the dataset and their types
             features=datasets.Features(
                 {
-                    "tokens": datasets.Value("string"),
+                    "text": datasets.Value("string"),
                     # we have five scores (one for each aspect) normalized between 0 and 1
-                    "scores": datasets.features.Sequence(
-                        datasets.Value("float"), length=1
+                    "label": datasets.features.Sequence(
+                        datasets.Value("int32"), length=1
                     ),
-                    "annotations": datasets.features.Sequence(
+                    "annotation_id": datasets.features.Sequence(
                         datasets.features.Sequence(
                             datasets.features.Sequence(datasets.Value("int32"))
                         )
@@ -88,9 +88,9 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
             # specify them here. They'll be used if as_supervised=True in
             # builder.as_dataset.
             supervised_keys=None,
-            # Homepage of the dataset for documentation
-            homepage="https://www.cs.virginia.edu/~hw5x/dataset.html",
-            citation=_CITATION,
+            # # Homepage of the dataset for documentation
+            # homepage="https://www.cs.virginia.edu/~hw5x/dataset.html",
+            # citation=_CITATION,
         )
 
     def _split_generators(self, dl_manager):
@@ -101,9 +101,9 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
         dl_dir = dl_manager.download_and_extract(_URL)
         data_dir = dl_dir
         filepaths = {
-            "train": os.path.join(data_dir, "hotel_location/hotel_Location_train.csv"),
-            "dev": os.path.join(data_dir, "hotel_location/hotel_Location_dev.csv"),
-            "test": os.path.join(data_dir, "hotel_location/hotel_Location_test.csv"),
+            "train": os.path.join(data_dir, "train.csv"),
+            "dev": os.path.join(data_dir, "dev.csv"),
+            "test": os.path.join(data_dir, "test.csv"),
         }
 
         return [
@@ -123,7 +123,9 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
             ),
             datasets.SplitGenerator(
                 name=datasets.Split.TEST,
-                gen_kwargs={"filepath": filepaths["test"], "split": "test"},
+                gen_kwargs={
+                    "filepath": filepaths["test"],
+                    "split": "test"},
             ),
         ]
 
@@ -131,21 +133,21 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
         """Yields examples."""
         with open(filepath, "r", encoding="utf8") as f:
             if split == "train":
-                f = csv.DictReader(f, delimiter=";")
+                f = csv.DictReader(f, delimiter=",")
             else:
-                f = csv.DictReader(f, delimiter="\t")
+                f = csv.DictReader(f, delimiter=",")
             for id_, row in enumerate(f):
                 annotations = []
                 if split == "test":
                     tokens = row["text"]
                     scores = [float(row["label"])]
-                    raw_annotations = np.array(
-                        [int(s) for s in row["rationale"].split()]
-                    )
-                    a1 = raw_annotations > 0
-                    a1_rshifted = np.roll(a1, 1)
-                    starts = a1 & ~a1_rshifted
-                    ends = ~a1 & a1_rshifted
+                    # raw_annotations = np.array(
+                    #     [int(s) for s in row["rationale"].split()]
+                    # )
+                    # a1 = raw_annotations > 0
+                    # a1_rshifted = np.roll(a1, 1)
+                    # starts = a1 & ~a1_rshifted
+                    # ends = ~a1 & a1_rshifted
                     if len(np.nonzero(starts)[0]) > 0:
                         for i in range(len(np.nonzero(starts)[0])):
                             annotations.append(

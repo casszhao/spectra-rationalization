@@ -17,4 +17,5 @@ available_data_modules = {
     "multi_nli": MultiNLIDataModule,
     "hotel_location": HotelLocationDataModule,
     "hans": HANSDataModule,
+    #'factcheck': factcheckDataModule,
 }

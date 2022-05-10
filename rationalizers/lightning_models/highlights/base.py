@@ -167,10 +167,10 @@ class BaseRationalizer(pl.LightningModule):
         labels = batch["labels"]
         mask = input_ids != constants.PAD_ID
         # forward-pass
-        print('-------------')
-        print(len(self(input_ids, mask=mask)))
-        print('-------------')
-        print(self(input_ids, mask=mask))
+        # print('-------------')
+        # print(len(self(input_ids, mask=mask)))
+        # print('-------------')
+        # print(self(input_ids, mask=mask))
         z, y_hat = self(input_ids, mask=mask)
 
         # compute loss

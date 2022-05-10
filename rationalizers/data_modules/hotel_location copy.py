@@ -1,17 +1,17 @@
 from functools import partial
 from itertools import chain
+
 import datasets as hf_datasets
-import nltk
 import torch
-from torchnlp.encoders.text import StaticTokenizerEncoder, stack_and_pad_tensors
+from torchnlp.encoders.text import WhitespaceEncoder, stack_and_pad_tensors
 from torchnlp.utils import collate_tensors
 
 from rationalizers import constants
 from rationalizers.data_modules.base import BaseDataModule
 
 
-class ImdbDataModule(BaseDataModule):
-    """DataModule for IMDB Dataset."""
+class HotelLocationDataModule(BaseDataModule):
+    """DataModule for Hotel Location Dataset."""
 
     def __init__(self, d_params: dict):
         """
@@ -19,24 +19,22 @@ class ImdbDataModule(BaseDataModule):
         """
         super().__init__(d_params)
         # hard-coded stuff
-        self.path = "imdb"  # hf_datasets will handle everything
-        self.is_multilabel = True
-        self.nb_classes = 2  # neg, pos
+        self.path = "./rationalizers/custom_hf_datasets/hotel_location_proc.py"
 
         # hyperparams
-        self.batch_size = d_params.get("batch_size", 64)
+        self.batch_size = d_params.get("batch_size", 32)
         self.num_workers = d_params.get("num_workers", 0)
         self.vocab_min_occurrences = d_params.get("vocab_min_occurrences", 1)
+        self.is_multilabel = False
+
+        # deal with single aspect experiments
+        # self.nb_classes = 2
 
         # objects
         self.dataset = None
-        self.label_encoder = None  # no label encoder for this dataset
         self.tokenizer = None
         self.tokenizer_cls = partial(
-            # WhitespaceEncoder,
-            # TreebankEncoder,
-            StaticTokenizerEncoder,
-            tokenize=nltk.wordpunct_tokenize,
+            WhitespaceEncoder,  # Beer dataset was already tokenized by Lei et al.
             min_occurrences=self.vocab_min_occurrences,
             reserved_tokens=[
                 constants.PAD,
@@ -48,9 +46,12 @@ class ImdbDataModule(BaseDataModule):
             padding_index=constants.PAD_ID,
             unknown_index=constants.UNK_ID,
             eos_index=constants.EOS_ID,
-            #sos_index=constants.SOS_ID,
+            sos_index=constants.SOS_ID,
             append_sos=False,
             append_eos=False,
+        )
+        self.label_encoder = (
+            None  # no need of label encoder -> predefined labels from self.dataset
         )
 
     def _collate_fn(self, samples: list, are_samples_batched: bool = False):
@@ -71,20 +72,23 @@ class ImdbDataModule(BaseDataModule):
             collated_samples["input_ids"], padding_index=self.tokenizer.padding_index
         )
 
-        # stack labels
-        labels = collated_samples["label"]
-        if isinstance(labels, list):
-            labels = torch.stack(labels, dim=0)
+        # stack scores
+        scores = collated_samples["scores"]
+        if isinstance(scores, list):
+            scores = torch.stack(scores, dim=0)
+        scores = scores.long()
 
-        # keep tokens in raw format
+        # keep annotations and tokens in raw format
+        annotations = collated_samples["annotation_id"]
         tokens = collated_samples["text"]
 
-        # return batch to the data loader
+        # return batch to the data loaders
         batch = {
             "input_ids": input_ids,
             "lengths": lengths,
+            "annotations": annotations,
             "tokens": tokens,
-            "labels": labels,
+            "labels": scores,
         }
         return batch
 
@@ -92,6 +96,7 @@ class ImdbDataModule(BaseDataModule):
         # download data, prepare and store it (do not assign to self vars)
         _ = hf_datasets.load_dataset(
             path=self.path,
+            download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
             save_infos=True,
         )
 
@@ -99,32 +104,22 @@ class ImdbDataModule(BaseDataModule):
         # Assign train/val/test datasets for use in dataloaders
         self.dataset = hf_datasets.load_dataset(
             path=self.path,
+            download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
         )
 
-        modified_dataset = hf_datasets.load_dataset("imdb")["train"].train_test_split(
-            test_size=0.1
+        # build tokenizer info (vocab + special tokens) based on train and validation set
+        tok_samples = chain(
+            self.dataset["train"]["tokens"], self.dataset["validation"]["tokens"]
         )
-
-        self.dataset["train"] = modified_dataset["train"]
-        self.dataset["validation"] = modified_dataset["test"]
-
-        # build tokenize rand label encoder
-        if self.tokenizer is None:
-            # build tokenizer info (vocab + special tokens) based on train and validation set
-            tok_samples = chain(
-                self.dataset["train"]["text"],
-            )
-            self.tokenizer = self.tokenizer_cls(tok_samples)
+        self.tokenizer = self.tokenizer_cls(tok_samples)
 
         # map strings to ids
         def _encode(example: dict):
-            example["input_ids"] = self.tokenizer.encode(example["text"].strip())
+            example["input_ids"] = self.tokenizer.encode(example["tokens"].strip())
             return example
 
         self.dataset = self.dataset.map(_encode)
         # convert `columns` to pytorch tensors and keep un-formatted columns
         self.dataset.set_format(
-            type="torch",
-            columns=["input_ids", "label"],
-            output_all_columns=True,
+            type="torch", columns=["input_ids", "scores"], output_all_columns=True
         )
