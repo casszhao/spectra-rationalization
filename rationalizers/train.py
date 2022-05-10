@@ -41,7 +41,7 @@ def run(args):
             dm.tokenizer, dm.nb_classes, dm.is_multilabel, h_params=dict_args
         )
         trainer = Trainer(resume_from_checkpoint=args.ckpt)
-    else:
+    else: # train from scratch
         shell_logger.info("Building callbacks...")
         callbacks = []
         early_stop_callback = EarlyStopping(
@@ -117,6 +117,7 @@ def run(args):
 
     # start training
     shell_logger.info("Starting fit...")
+
     trainer.fit(model, dm)
 
     # save encoders in the best model dir

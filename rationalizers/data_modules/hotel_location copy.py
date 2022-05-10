@@ -46,7 +46,7 @@ class HotelLocationDataModule(BaseDataModule):
             padding_index=constants.PAD_ID,
             unknown_index=constants.UNK_ID,
             eos_index=constants.EOS_ID,
-            sos_index=constants.SOS_ID,
+            #sos_index=constants.SOS_ID,
             append_sos=False,
             append_eos=False,
         )
@@ -94,17 +94,24 @@ class HotelLocationDataModule(BaseDataModule):
 
     def prepare_data(self):
         # download data, prepare and store it (do not assign to self vars)
-        _ = hf_datasets.load_dataset(
-            path=self.path,
-            download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
+        _ = datasets.load_dataset(data_dir='./datasets/factcheck_full/',
+            # path=self.path,
+            # download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
             save_infos=True,
         )
 
+#  if self.manual_download_instructions is not None:
+#                 assert (
+#                     dl_manager.manual_dir is not None
+#                 ), "The dataset {} with config {} requires manual data. \n Please follow the manual download instructions: {}. \n Manual data can be loaded with `datasets.load_dataset({}, data_dir='<path/to/manual/data>')".format(
+#                     self.name, self.config.name, self.manual_download_instructions, self.name
+#                 )
+
     def setup(self, stage: str = None):
         # Assign train/val/test datasets for use in dataloaders
-        self.dataset = hf_datasets.load_dataset(
-            path=self.path,
-            download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
+        self.dataset = datasets.load_dataset(
+            data_dir='./datasets/factcheck_full/',
+            # download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
         )
 
         # build tokenizer info (vocab + special tokens) based on train and validation set

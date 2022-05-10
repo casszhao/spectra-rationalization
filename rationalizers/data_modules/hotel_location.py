@@ -46,8 +46,8 @@ class HotelLocationDataModule(BaseDataModule):
             padding_index=constants.PAD_ID,
             unknown_index=constants.UNK_ID,
             eos_index=constants.EOS_ID,
-            sos_index=constants.SOS_ID,
-            append_sos=False,
+            #sos_index=constants.SOS_ID,
+            #append_sos=False,
             append_eos=False,
         )
         self.label_encoder = (
@@ -94,9 +94,11 @@ class HotelLocationDataModule(BaseDataModule):
 
     def prepare_data(self):
         # download data, prepare and store it (do not assign to self vars)
+        print('+++++++ download path +++++++++++')
+        print(self.path)
         _ = hf_datasets.load_dataset(
             path=self.path,
-            download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
+            # download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
             save_infos=True,
         )
 
