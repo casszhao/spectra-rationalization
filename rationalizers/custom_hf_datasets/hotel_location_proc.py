@@ -71,7 +71,7 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
             description=_DESCRIPTION,
             # This defines the different columns of the dataset and their types
             features=datasets.Features(
-                {
+                {   "tokens": datasets.Value("string"),
                     "text": datasets.Value("string"),
                     # we have five scores (one for each aspect) normalized between 0 and 1
                     "label": datasets.features.Sequence(
@@ -98,12 +98,12 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
 
         # dl_manager is a datasets.download.DownloadManager that can be used to
         # download and extract URLs
-        dl_dir = dl_manager.download_and_extract(_URL)
-        data_dir = dl_dir
+        # dl_dir = dl_manager.download_and_extract(_URL)
+        # data_dir = dl_dir
         filepaths = {
-            "train": os.path.join(data_dir, "train.csv"),
-            "dev": os.path.join(data_dir, "dev.csv"),
-            "test": os.path.join(data_dir, "test.csv"),
+            "train": './datasets/factcheck_full/train.csv',
+            "dev": './datasets/factcheck_full/dev.csv',
+            "test": './datasets/factcheck_full/test.csv',
         }
 
         return [
@@ -134,8 +134,10 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
         with open(filepath, "r", encoding="utf8") as f:
             if split == "train":
                 f = csv.DictReader(f, delimiter=",")
+                print(f.head())
             else:
                 f = csv.DictReader(f, delimiter=",")
+                print(f.head())
             for id_, row in enumerate(f):
                 annotations = []
                 if split == "test":
