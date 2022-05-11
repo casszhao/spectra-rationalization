@@ -255,19 +255,19 @@ class BaseRationalizer(pl.LightningModule):
         }
 
         # only evaluate rationales on the test set and if we have annotation (only for beer dataset)
-        if prefix == "test" and "test_annotations" in stacked_outputs.keys():
-            rat_metrics = evaluate_rationale(
-                stacked_outputs["test_ids_rationales"],
-                stacked_outputs["test_annotations"],
-                stacked_outputs["test_lengths"],
-            )
-            shell_logger.info(
-                f"Rationales macro precision: {rat_metrics[f'macro_precision']:.4}"
-            )
-            shell_logger.info(
-                f"Rationales macro recall: {rat_metrics[f'macro_recall']:.4}"
-            )
-            shell_logger.info(f"Rationales macro f1: {rat_metrics[f'f1_score']:.4}")
+        # if prefix == "test" and "test_annotations" in stacked_outputs.keys():
+        #     rat_metrics = evaluate_rationale(
+        #         stacked_outputs["test_ids_rationales"],
+        #         stacked_outputs["test_annotations"],
+        #         stacked_outputs["test_lengths"],
+        #     )
+        #     shell_logger.info(
+        #         f"Rationales macro precision: {rat_metrics[f'macro_precision']:.4}"
+        #     )
+        #     shell_logger.info(
+        #         f"Rationales macro recall: {rat_metrics[f'macro_recall']:.4}"
+        #     )
+        #     shell_logger.info(f"Rationales macro f1: {rat_metrics[f'f1_score']:.4}")
 
         # log classification metrics
         if self.is_multilabel:
