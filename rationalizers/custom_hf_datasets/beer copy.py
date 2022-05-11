@@ -19,8 +19,6 @@ from __future__ import absolute_import, division, print_function
 import json
 import os
 import datasets
-import numpy as np
-import json
 
 _CITATION = """\
 @inproceedings{mcauley2012learning,

@@ -94,7 +94,7 @@ class HotelLocationDataModule(BaseDataModule):
 
     def prepare_data(self):
         # download data, prepare and store it (do not assign to self vars)
-        _ = datasets.load_dataset(data_dir='./datasets/factcheck_full/',
+        _ = datasets.load_dataset(data_dir='./datasets/factcheck/',
             # path=self.path,
             # download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
             save_infos=True,
@@ -110,7 +110,7 @@ class HotelLocationDataModule(BaseDataModule):
     def setup(self, stage: str = None):
         # Assign train/val/test datasets for use in dataloaders
         self.dataset = datasets.load_dataset(
-            data_dir='./datasets/factcheck_full/',
+            data_dir='./datasets/factcheck/',
             # download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
         )
 

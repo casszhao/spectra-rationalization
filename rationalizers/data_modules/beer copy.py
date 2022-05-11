@@ -10,8 +10,8 @@ from rationalizers import constants
 from rationalizers.data_modules.base import BaseDataModule
 
 
-class HotelLocationDataModule(BaseDataModule):
-    """DataModule for Hotel Location Dataset."""
+class BeerDataModule(BaseDataModule):
+    """DataModule for BeerAdvocate Dataset."""
 
     def __init__(self, d_params: dict):
         """
@@ -19,16 +19,21 @@ class HotelLocationDataModule(BaseDataModule):
         """
         super().__init__(d_params)
         # hard-coded stuff
-        self.path = "./rationalizers/custom_hf_datasets/hotel_location_proc.py"
+        self.path = "./rationalizers/custom_hf_datasets/beer.py"
 
         # hyperparams
+        self.aspect_subset = d_params.get("aspect_subset", "aspect0")
         self.batch_size = d_params.get("batch_size", 32)
         self.num_workers = d_params.get("num_workers", 0)
         self.vocab_min_occurrences = d_params.get("vocab_min_occurrences", 1)
-        self.is_multilabel = True
+        self.transform_to_multiclass = d_params.get("transform_to_multiclass", False)
+        self.is_multilabel = self.transform_to_multiclass
 
         # deal with single aspect experiments
-        self.nb_classes = 2
+        self.nb_classes = 5 if self.aspect_subset == "260k" else 1
+        self.aspect_id = (
+            -1 if self.aspect_subset == "260k" else int(self.aspect_subset[-1])
+        )
 
         # objects
         self.dataset = None
@@ -47,7 +52,7 @@ class HotelLocationDataModule(BaseDataModule):
             unknown_index=constants.UNK_ID,
             eos_index=constants.EOS_ID,
             #sos_index=constants.SOS_ID,
-            #append_sos=False,
+            append_sos=False,
             append_eos=False,
         )
         self.label_encoder = (
@@ -64,6 +69,13 @@ class HotelLocationDataModule(BaseDataModule):
             # dataloader batch size is 1 -> the sampler is responsible for batching
             samples = samples[0]
 
+        # allowed_samples = []
+        # for sample in samples:
+        #     if len(sample["input_ids"]) < 257:
+        #         allowed_samples.append(sample)
+
+        # samples = allowed_samples
+
         # convert list of dicts to dict of lists
         collated_samples = collate_tensors(samples, stack_tensors=list)
 
@@ -76,11 +88,17 @@ class HotelLocationDataModule(BaseDataModule):
         scores = collated_samples["scores"]
         if isinstance(scores, list):
             scores = torch.stack(scores, dim=0)
-        scores = scores.long()
+
+        # transform vector to label (multilabel to multiclass)
+        if self.transform_to_multiclass:
+            scores = scores.argmax(dim=-1)
+
+        # if aspect-only training, get that aspect as a single score (nb_classes will be 1)
+        if self.aspect_id > -1:
+            scores = scores[:, self.aspect_id].unsqueeze(1)
 
         # keep annotations and tokens in raw format
         annotations = collated_samples["annotations"]
-        #print('++++++++++++++++annotaion okay')
         tokens = collated_samples["tokens"]
 
         # return batch to the data loaders
@@ -95,11 +113,10 @@ class HotelLocationDataModule(BaseDataModule):
 
     def prepare_data(self):
         # download data, prepare and store it (do not assign to self vars)
-        #print('+++++++ download path +++++++++++')
-        #print(self.path)
         _ = hf_datasets.load_dataset(
             path=self.path,
-            # download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
+            aspect_subset=self.aspect_subset,
+            download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
             save_infos=True,
         )
 
@@ -107,6 +124,7 @@ class HotelLocationDataModule(BaseDataModule):
         # Assign train/val/test datasets for use in dataloaders
         self.dataset = hf_datasets.load_dataset(
             path=self.path,
+            aspect_subset=self.aspect_subset,
             download_mode=hf_datasets.GenerateMode.REUSE_DATASET_IF_EXISTS,
         )
 

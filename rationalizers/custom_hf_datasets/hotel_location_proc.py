@@ -19,7 +19,7 @@ from __future__ import absolute_import, division, print_function
 import os
 import csv
 import numpy as np
-
+import json
 import pdb
 import datasets
 
@@ -72,12 +72,12 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
             # This defines the different columns of the dataset and their types
             features=datasets.Features(
                 {   "tokens": datasets.Value("string"),
-                    "text": datasets.Value("string"),
+                    #"text": datasets.Value("string"),
                     # we have five scores (one for each aspect) normalized between 0 and 1
-                    "label": datasets.features.Sequence(
+                    "scores": datasets.features.Sequence(
                         datasets.Value("int32"), length=1
                     ),
-                    "annotation_id": datasets.features.Sequence(
+                    "annotations": datasets.features.Sequence(
                         datasets.features.Sequence(
                             datasets.features.Sequence(datasets.Value("int32"))
                         )
@@ -101,9 +101,9 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
         # dl_dir = dl_manager.download_and_extract(_URL)
         # data_dir = dl_dir
         filepaths = {
-            "train": './datasets/factcheck_full/train.csv',
-            "dev": './datasets/factcheck_full/dev.csv',
-            "test": './datasets/factcheck_full/test.csv',
+            "train": './datasets/factcheck/train.json',
+            "dev": './datasets/factcheck/dev.json',
+            "test": './datasets/factcheck/test.json',
         }
 
         return [
@@ -132,13 +132,19 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
     def _generate_examples(self, filepath, split):
         """Yields examples."""
         with open(filepath, "r", encoding="utf8") as f:
-            if split == "train":
-                f = csv.DictReader(f, delimiter=",")
-                print(f.head())
-            else:
-                f = csv.DictReader(f, delimiter=",")
-                print(f.head())
+            # if split == "train":
+            #     f = csv.DictReader(f, delimiter=",")
+            #     print(f.head())
+            # else:
+            #     f = csv.DictReader(f, delimiter=",")
+            #     print(f.head())
+            f = json.load(f)
+            # print('+++++++++++')
+            # print(f)
             for id_, row in enumerate(f):
+                
+                # if id_> 4:
+                #     exit()
                 annotations = []
                 if split == "test":
                     tokens = row["text"]
@@ -150,21 +156,21 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
                     # a1_rshifted = np.roll(a1, 1)
                     # starts = a1 & ~a1_rshifted
                     # ends = ~a1 & a1_rshifted
-                    if len(np.nonzero(starts)[0]) > 0:
-                        for i in range(len(np.nonzero(starts)[0])):
-                            annotations.append(
-                                [
-                                    np.nonzero(starts)[0][i].item(),
-                                    np.nonzero(ends)[0][i].item(),
-                                ]
-                            )
-                    else:
-                        annotations.append([])
-
+                    # if len(np.nonzero(starts)[0]) > 0:
+                    #     for i in range(len(np.nonzero(starts)[0])):
+                    #         annotations.append(
+                    #             [
+                    #                 np.nonzero(starts)[0][i].item(),
+                    #                 np.nonzero(ends)[0][i].item(),
+                    #             ]
+                    #         )
+                    # else:
+                    #     annotations.append([])
+                    #annotations.append([[[0]]])
                     yield id_, {
                         "tokens": tokens,
                         "scores": scores,
-                        "annotations": [annotations],
+                        "annotations": [[[0]]],
                     }
 
                 else:
