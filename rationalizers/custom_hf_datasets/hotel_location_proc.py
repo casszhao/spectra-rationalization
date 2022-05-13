@@ -19,11 +19,7 @@ from __future__ import absolute_import, division, print_function
 import os
 import csv
 import numpy as np
-<<<<<<< HEAD
 import json
-=======
-
->>>>>>> e00d1d0c2bb49a4ce2d1b6979fc7f649a7b01a75
 import pdb
 import datasets
 
@@ -76,21 +72,12 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
             # This defines the different columns of the dataset and their types
             features=datasets.Features(
                 {   "tokens": datasets.Value("string"),
-<<<<<<< HEAD
                     #"text": datasets.Value("string"),
                     # we have five scores (one for each aspect) normalized between 0 and 1
                     "scores": datasets.features.Sequence(
                         datasets.Value("int32"), length=1
                     ),
                     "annotations": datasets.features.Sequence(
-=======
-                    "text": datasets.Value("string"),
-                    # we have five scores (one for each aspect) normalized between 0 and 1
-                    "label": datasets.features.Sequence(
-                        datasets.Value("int32"), length=1
-                    ),
-                    "annotation_id": datasets.features.Sequence(
->>>>>>> e00d1d0c2bb49a4ce2d1b6979fc7f649a7b01a75
                         datasets.features.Sequence(
                             datasets.features.Sequence(datasets.Value("int32"))
                         )
@@ -114,15 +101,9 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
         # dl_dir = dl_manager.download_and_extract(_URL)
         # data_dir = dl_dir
         filepaths = {
-<<<<<<< HEAD
             "train": './datasets/agnews/train.json',
             "dev": './datasets/agnews/dev.json',
             "test": './datasets/agnews/test.json',
-=======
-            "train": './datasets/factcheck_full/train.csv',
-            "dev": './datasets/factcheck_full/dev.csv',
-            "test": './datasets/factcheck_full/test.csv',
->>>>>>> e00d1d0c2bb49a4ce2d1b6979fc7f649a7b01a75
         }
 
         return [
@@ -151,7 +132,6 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
     def _generate_examples(self, filepath, split):
         """Yields examples."""
         with open(filepath, "r", encoding="utf8") as f:
-<<<<<<< HEAD
             # if split == "train":
             #     f = csv.DictReader(f, delimiter=",")
             #     print(f.head())
@@ -165,15 +145,6 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
                 
                 # if id_> 4:
                 #     exit()
-=======
-            if split == "train":
-                f = csv.DictReader(f, delimiter=",")
-                print(f.head())
-            else:
-                f = csv.DictReader(f, delimiter=",")
-                print(f.head())
-            for id_, row in enumerate(f):
->>>>>>> e00d1d0c2bb49a4ce2d1b6979fc7f649a7b01a75
                 annotations = []
                 if split == "test":
                     tokens = row["text"]
