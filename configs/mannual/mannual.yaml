@@ -71,7 +71,7 @@ train:
 
 # the options defined here will overwrite the ones defined in the checkpoint
 predict:
-    ckpt: null  # will be defined via cli --ckpt or will get last checkpoint version if it exists
+    #ckpt: null  # will be defined via cli --ckpt or will get last checkpoint version if it exists
     gpus: 1
     load_tokenizer: True       # load a trained tokenizer stored in the checkpoint dir as `tokenizer.pickle`
     load_label_encoder: True   # load a trained label encoder stored in the checkpoint dir as `label_encoder.pickle`
