@@ -1,6 +1,6 @@
 # general args
 seed: 38    # for reproducibility
-default_root_dir: 'experiments/agnews-spectra/'  # path to save logs and models
+default_root_dir: 'experiments/agnews-sparsemax/'  # path to save logs and models
 
 
 # training args
@@ -13,8 +13,8 @@ train:
     gpu_log: False              # whether to use the gpu callback to see gpu information in the logger
 
     # data
-    dm: 'hotel_location'           # data module name (see docs for more options)
-    batch_size: 32                 # minibatch size
+    dm: 'ag_news'                       # data module name (see docs for more options)
+    batch_size: 32                  # minibatch size
     num_workers: 4                  # number of workers used for data loading (0 means that only a single core will be used)
     vocab_min_occurrences:  1       # frequency for a token to be added to the vocabulary
 
@@ -24,9 +24,10 @@ train:
     monitor_patience: 20         # number of epochs to wait for early stopping
 
     # pytorch-lightning rationalizer model
-    model: 'spectra'
+    model: 'sparsemax'
     embed_fixed: True
-
+    temperature: 0.1
+    
     # model: optimizer
     optimizer: 'adam'
     lr: 0.0001
@@ -53,9 +54,6 @@ train:
     hidden_size: 200
     dropout: 0.1
     sentence_encoder_layer_type: 'lstm'
-    transition: 0.01
-    budget: 15
-    temperature: 0.1
 
     # trainer (will be passed to pytorch-lightning's Trainer object)
     # see the complete list here: https://pytorch-lightning.readthedocs.io/en/stable/trainer.html#trainer-flags
@@ -65,14 +63,13 @@ train:
     max_epochs: 25
     #limit_test_batches:
     #limit_train_batches: 10
-    #limit_val_batches: 2
-    #log_every_n_steps: 10
+    #limit_val_batches: 1
+    #log_every_n_steps: 25
 
 
 # the options defined here will overwrite the ones defined in the checkpoint
 predict:
-    # ckpt: null  # will be defined via cli --ckpt or will get last checkpoint version if it exists
+    # ckpt: null               # will be defined via cli --ckpt or will get last checkpoint version if it exists
     gpus: 1
     load_tokenizer: True       # load a trained tokenizer stored in the checkpoint dir as `tokenizer.pickle`
     load_label_encoder: True   # load a trained label encoder stored in the checkpoint dir as `label_encoder.pickle`
-    predicting: True
