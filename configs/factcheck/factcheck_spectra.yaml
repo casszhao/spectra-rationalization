@@ -1,6 +1,6 @@
 # general args
 seed: 38    # for reproducibility
-default_root_dir: 'experiments/factcheck-spectra/'  # path to save logs and models
+default_root_dir: 'experiments/xfact-spectra/'  # path to save logs and models
 
 
 # training args
