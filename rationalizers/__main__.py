@@ -11,6 +11,10 @@ from rationalizers.utils import (
     load_yaml_config,
 )
 
+import torch
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+CUDA_VISIBLE_DEVICES = 0
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("task", type=str, choices=["train", "predict", "resume"])
