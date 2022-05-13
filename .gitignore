@@ -139,3 +139,6 @@ lp-sparsemap/
 eigen/
 dist/
 build/
+
+
+./datasets/
