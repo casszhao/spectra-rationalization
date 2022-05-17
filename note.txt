@@ -1,0 +1,4 @@
+python -m rationalizers train --config configs/factcheck/factcheck_spectra.yaml
+
+
+python -m rationalizers predict --config configs/factcheck/factcheck_spectra.yaml --ck
