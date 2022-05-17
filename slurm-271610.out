@@ -1,0 +1,5 @@
+	Python3 anaconda is now loaded in your environment.
+
+	CUDA-10.2 loaded
+
+/var/spool/slurmd/job271610/slurm_script: line 32: 57127 Segmentation fault      python -m rationalizers train --config configs/hotels/hotels_spectra.yaml
