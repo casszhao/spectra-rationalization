@@ -1,0 +1,26 @@
+	Python3 anaconda is now loaded in your environment.
+
+	CUDA-10.2 loaded
+
+Global seed set to 5
+[2022-05-30 22:31:04,951] INFO: Building data: hotel_location...
+Reusing dataset hotel_location_dataset (/jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74)
+Reusing dataset hotel_location_dataset (/jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74)
+Loading cached processed dataset at /jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74/cache-1dd14fd7163d47ab.arrow
+Loading cached processed dataset at /jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74/cache-17f4e338a5a0f34f.arrow
+Loading cached processed dataset at /jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74/cache-e506fe4b17081776.arrow
+[2022-05-30 22:31:10,494] INFO: Building board loggers...
+[2022-05-30 22:31:10,494] INFO: Building callbacks...
+[2022-05-30 22:31:10,495] INFO: Building model: spectra...
+[2022-05-30 22:31:10,883] INFO: Created a temporary directory at /tmp/tmpj816okmc
+[2022-05-30 22:31:10,884] INFO: Writing /tmp/tmpj816okmc/_remote_module_non_sriptable.py
+[2022-05-30 22:31:11,549] INFO: {'seed': 5, 'default_root_dir': 'experiments/factcheck', 'save_rationales': True, 'save_tokenizer': True, 'save_label_encoder': True, 'gpu_log': False, 'dm': 'hotel_location', 'batch_size': 32, 'num_workers': 4, 'vocab_min_occurrences': 1, 'monitor': 'val_f1score', 'monitor_mode': 'max', 'monitor_patience': 20, 'model': 'spectra', 'embed_fixed': True, 'optimizer': 'adam', 'lr': 0.0001, 'weight_decay': 1e-06, 'betas': [0.9, 0.999], 'amsgrad': False, 'momentum': 0.0, 'dampening': 0.0, 'nesterov': False, 'alpha': 0.99, 'centered': False, 'lambd': 0.0001, 't0': 1000000.0, 'scheduler': 'multistep', 'milestones': [25, 50, 75], 'lr_decay': 0.97, 'emb_type': 'glove', 'emb_path': '840B', 'emb_size': 300, 'hidden_size': 200, 'dropout': 0.1, 'sentence_encoder_layer_type': 'lstm', 'transition': 0.01, 'budget': 15, 'temperature': 0.1, 'gpus': 1, 'gradient_clip_val': 5.0, 'min_epochs': 5, 'max_epochs': 25}
+Traceback (most recent call last):
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/__main__.py", line 112, in <module>
+    train.run(args)
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/train.py", line 92, in run
+    model = model_cls(
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/lightning_models/highlights/spectra.py", line 57, in __init__
+    self.train_accuracy = pl.metrics.Accuracy()
+AttributeError: module 'pytorch_lightning' has no attribute 'metrics'
+
