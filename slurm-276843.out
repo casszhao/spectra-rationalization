@@ -1,0 +1,43 @@
+/var/spool/slurmd/job276843/slurm_script: line 3: /home/cass/anaconda3/bin/activate: No such file or directory
+
+CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.
+To initialize your shell, run
+
+    $ conda init <SHELL_NAME>
+
+Currently supported shells are:
+  - bash
+  - fish
+  - tcsh
+  - xonsh
+  - zsh
+  - powershell
+
+See 'conda init --help' for more information and options.
+
+IMPORTANT: You may need to close and restart your shell after running 'conda init'.
+
+
+Global seed set to 5
+[2022-05-30 22:06:30,906] INFO: Building data: hotel_location...
+Reusing dataset hotel_location_dataset (/jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74)
+Reusing dataset hotel_location_dataset (/jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74)
+Loading cached processed dataset at /jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74/cache-1dd14fd7163d47ab.arrow
+Loading cached processed dataset at /jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74/cache-17f4e338a5a0f34f.arrow
+Loading cached processed dataset at /jmain02/home/J2AD003/txk58/zxz22-txk58/.cache/huggingface/datasets/hotel_location_dataset/hotel_location_dataset_/0.0.0/16854e97974eb7bce3e5660d672a205c8e564c179ebebaf3535fd71760869f74/cache-e506fe4b17081776.arrow
+[2022-05-30 22:06:35,561] INFO: Building board loggers...
+[2022-05-30 22:06:35,562] INFO: Building callbacks...
+[2022-05-30 22:06:35,563] INFO: Building model: spectra...
+[2022-05-30 22:06:35,915] INFO: Created a temporary directory at /tmp/tmpegai9ups
+[2022-05-30 22:06:35,916] INFO: Writing /tmp/tmpegai9ups/_remote_module_non_sriptable.py
+Traceback (most recent call last):
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/__main__.py", line 112, in <module>
+    train.run(args)
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/train.py", line 92, in run
+    model = model_cls(
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/lightning_models/highlights/spectra.py", line 35, in __init__
+    super().__init__(tokenizer, nb_classes, is_multilabel, h_params)
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/lightning_models/highlights/base.py", line 47, in __init__
+    self.val_precision = pl.metrics.Precision(
+AttributeError: module 'pytorch_lightning' has no attribute 'metrics'
+

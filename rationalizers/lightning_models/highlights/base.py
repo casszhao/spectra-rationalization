@@ -40,12 +40,10 @@ class BaseRationalizer(pl.LightningModule):
 
         # define metrics
         if self.is_multilabel:
-            self.train_accuracy = pl.metrics.Accuracy()
-            self.val_accuracy = pl.metrics.Accuracy()
-            self.test_accuracy = pl.metrics.Accuracy()
-            self.train_precision = pl.metrics.Precision(
-                num_classes=nb_classes, average="macro"
-            )
+            #self.train_accuracy = pl.metrics.Accuracy()
+            #self.val_accuracy = pl.metrics.Accuracy()
+            #self.test_accuracy = pl.metrics.Accuracy()
+            #self.train_precision = pl.metrics.Precision(num_classes=nb_classes, average="macro")
             self.val_precision = pl.metrics.Precision(
                 num_classes=nb_classes, average="macro"
             )
@@ -283,12 +281,12 @@ class BaseRationalizer(pl.LightningModule):
                 device=preds.device,
             )
             if prefix == "val":
-                accuracy = self.val_accuracy(preds, labels)
+                #accuracy = self.val_accuracy(preds, labels)
                 precision = self.val_precision(preds, labels)
                 recall = self.val_recall(preds, labels)
                 f1_score = 2 * precision * recall / (precision + recall)
             else:
-                accuracy = self.test_accuracy(preds, labels)
+                #accuracy = self.test_accuracy(preds, labels)
                 precision = self.test_precision(preds, labels)
                 recall = self.test_recall(preds, labels)
                 f1_score = 2 * precision * recall / (precision + recall)
@@ -296,9 +294,9 @@ class BaseRationalizer(pl.LightningModule):
             dict_metrics[f"{prefix}_precision"] = precision
             dict_metrics[f"{prefix}_recall"] = recall
             dict_metrics[f"{prefix}_f1score"] = f1_score
-            dict_metrics[f"{prefix}_accuracy"] = accuracy
+            #dict_metrics[f"{prefix}_accuracy"] = accuracy
 
-            shell_logger.info(f"{prefix} accuracy: {accuracy:.4}")
+            #shell_logger.info(f"{prefix} accuracy: {accuracy:.4}")
             shell_logger.info(f"{prefix} precision: {precision:.4}")
             shell_logger.info(f"{prefix} recall: {recall:.4}")
             shell_logger.info(f"{prefix} f1: {f1_score:.4}")
@@ -346,7 +344,7 @@ class BaseRationalizer(pl.LightningModule):
                 f"{prefix}_precision": precision,
                 f"{prefix}_recall": recall,
                 f"{prefix}_f1score": f1_score,
-                f"{prefix}_accuracy": accuracy,
+                #f"{prefix}_accuracy": accuracy,
             }
         else:
             output = {

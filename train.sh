@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-source /home/cass/anaconda3/bin/activate
+modul
 conda activate spectra
 
 
