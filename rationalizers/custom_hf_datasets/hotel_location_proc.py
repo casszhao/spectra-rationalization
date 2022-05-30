@@ -101,9 +101,9 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
         # dl_dir = dl_manager.download_and_extract(_URL)
         # data_dir = dl_dir
         filepaths = {
-            "train": './datasets/xfact/train.json',
-            "dev": './datasets/xfact/dev.json',
-            "test": './datasets/xfact/test.json',
+            "train": './datasets/factcheck/train.json',
+            "dev": './datasets/factcheck/dev.json',
+            "test": './datasets/factcheck/test.json',
         }
 
         return [

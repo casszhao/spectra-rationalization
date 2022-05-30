@@ -1,6 +1,6 @@
 # general args
-seed: 38    # for reproducibility
-default_root_dir: 'experiments/xfact-spectra/'  # path to save logs and models
+seed: 5    # for reproducibility
+default_root_dir: 'experiments/factcheck/'  # path to save logs and models
 
 
 # training args
@@ -73,6 +73,6 @@ train:
 predict:
     #ckpt: null  # will be defined via cli --ckpt or will get last checkpoint version if it exists
     gpus: 1
-    load_tokenizer: True       # load a trained tokenizer stored in the checkpoint dir as `tokenizer.pickle`
+    load_tokenizer: False       # load a trained tokenizer stored in the checkpoint dir as `tokenizer.pickle`
     load_label_encoder: True   # load a trained label encoder stored in the checkpoint dir as `label_encoder.pickle`
     predicting: True
