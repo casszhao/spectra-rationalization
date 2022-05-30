@@ -144,3 +144,4 @@ build/
 ./datasets/
 *json
 *.pt
+*cache*
