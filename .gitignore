@@ -147,3 +147,4 @@ build/
 *cache*
 .out
 .zip
+*hpc.sh
