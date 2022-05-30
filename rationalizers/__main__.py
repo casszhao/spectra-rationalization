@@ -1,5 +1,7 @@
 import argparse
 import os
+import traceback
+import sys
 
 from rationalizers import predict, train, resume
 from rationalizers.utils import (
@@ -104,11 +106,14 @@ if __name__ == "__main__":
     # configure shell logger
     configure_shell_logger(args.default_root_dir)
 
-    # train or predict!
-    if tmp_args.task == "train":
-        train.run(args)
-    elif tmp_args.task == "resume":
-        resume.run(args)
-    elif tmp_args.task == "predict":
-        predict.run(args)
-        # search.run(args)
+    try:
+        # train or predict!
+        if tmp_args.task == "train":
+            train.run(args)
+        elif tmp_args.task == "resume":
+            resume.run(args)
+        elif tmp_args.task == "predict":
+            predict.run(args)
+            # search.run(args)
+    except Exception:
+        print(traceback.format_exc())
