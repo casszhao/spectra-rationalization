@@ -10,6 +10,7 @@ from rationalizers.builders import build_sentence_encoder
 from rationalizers.modules.gates import BernoulliGate, RelaxedBernoulliGate, KumaGate
 from rationalizers.modules.sparsemap import (
     matching_smap_atmostone_budget,
+    matching_smap_atmostone,
 )
 
 print('numpy.__version__')
