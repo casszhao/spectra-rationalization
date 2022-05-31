@@ -111,9 +111,9 @@ class SPECTRAGenerator(nn.Module):
                 )
             else:
                 test_temperature = 1e-3
-                print(x) #tensor (n, 2)
-                print(test_temperature) # 0.001
-                print(transition) # tensor (n, n, 2)
+                # print(x) #tensor (n, 2)
+                # print(test_temperature) # 0.001
+                # print(transition) # tensor (n, n, 2)
                 #z_probs = matching_smap_atmostone_budget( 修改
                 z_probs = matching_smap_atmostone(
                     x,  # x / test_temperature --> ValueError: only one element tensors can be converted to Python scalars
