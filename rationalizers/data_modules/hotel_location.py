@@ -27,7 +27,7 @@ class HotelLocationDataModule(BaseDataModule):
         self.vocab_min_occurrences = d_params.get("vocab_min_occurrences", 1)
         self.is_multilabel = True
         # changes to class
-        self.nb_classes = 3 # original = 2
+        self.nb_classes = 2 # original = 2
 
         # deal with single aspect experiments
 
