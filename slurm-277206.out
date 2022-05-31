@@ -1,0 +1,23 @@
+	Python3 anaconda is now loaded in your environment.
+
+	CUDA-10.2 loaded
+
+Traceback (most recent call last):
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/.conda/envs/spectra/lib/python3.8/runpy.py", line 193, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/.conda/envs/spectra/lib/python3.8/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/__main__.py", line 6, in <module>
+    from rationalizers import predict, train, resume
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/predict.py", line 7, in <module>
+    from rationalizers.lightning_models import available_models
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/lightning_models/__init__.py", line 1, in <module>
+    from rationalizers.lightning_models.highlights.bernoulli import BernoulliRationalizer
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/lightning_models/highlights/bernoulli.py", line 11, in <module>
+    from rationalizers.modules.generators import (
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/modules/generators.py", line 11, in <module>
+    from rationalizers.modules.sparsemap import (
+  File "/jmain02/home/J2AD003/txk58/zxz22-txk58/spectra/spectra-rationalization/rationalizers/modules/sparsemap.py", line 6
+    from lp-sparsemap.lpsmap.api.autograd import (
+           ^
+SyntaxError: invalid syntax

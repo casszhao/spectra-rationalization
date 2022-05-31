@@ -2,3 +2,8 @@ python -m rationalizers train --config configs/factcheck/factcheck_spectra.yaml
 
 
 python -m rationalizers predict --config configs/factcheck/factcheck_spectra.yaml --ck
+
+1. 修改path
+2. 修改class num
+3. 修改config yaml文件 default 地址
+4. 

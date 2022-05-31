@@ -12,8 +12,8 @@ from rationalizers.modules.sparsemap import (
     matching_smap_atmostone_budget,
 )
 
-
-
+print('numpy.__version__')
+print(np.__version__)
 
 class SPECTRAGenerator(nn.Module):
     """
@@ -98,7 +98,8 @@ class SPECTRAGenerator(nn.Module):
             self.step_size = 0.0
 
             if self.training:
-                z_probs = matching_smap_atmostone_budget(
+                z_probs = matching_smap_atmostone(
+                #z_probs = matching_smap_atmostone_budget( 修改
                     x,
                     transition,
                     budget=budget,
@@ -109,9 +110,13 @@ class SPECTRAGenerator(nn.Module):
                 )
             else:
                 test_temperature = 1e-3
-                z_probs = matching_smap_atmostone_budget(
-                    x / test_temperature,
-                    transition / test_temperature,
+                print(x) #tensor (n, 2)
+                print(test_temperature) # 0.001
+                print(transition) # tensor (n, n, 2)
+                #z_probs = matching_smap_atmostone_budget( 修改
+                z_probs = matching_smap_atmostone(
+                    x,  # x / test_temperature --> ValueError: only one element tensors can be converted to Python scalars
+                    transition, # transition / test_temperature
                     budget=budget,
                     temperature=test_temperature,
                     init=self.init,
@@ -126,7 +131,7 @@ class SPECTRAGenerator(nn.Module):
             z.append(z_probs)
 
         #z = torch.stack(z, dim=0).squeeze(-1)  # [B, T]
-        z = torch.stack(z, dim=0)[:,:,0].squeeze(-1)  # [B, T]
+        z = torch.stack(z, dim=0)[:,:,0].squeeze(-1)  # [B, T] # 修改过 只拿了第一维度的
 
         z = z.cuda()
 
