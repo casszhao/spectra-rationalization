@@ -100,9 +100,9 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
         # dl_dir = dl_manager.download_and_extract(_URL)
         # data_dir = dl_dir
         filepaths = {
-            "train": './datasets/AmazDigiMu_full/train.json',
-            "dev": './datasets/AmazDigiMu_full/dev.json',
-            "test": './datasets/AmazDigiMu_full/test.json',
+            "train": './datasets/AmazPantry_full/train.json',
+            "dev": './datasets/AmazPantry_full/dev.json',
+            "test": './datasets/AmazPantry_full/test.json',
         }
 
         return [

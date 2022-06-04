@@ -1,6 +1,6 @@
 # general args
 seed: 20    # for reproducibility
-default_root_dir: 'experiments/AmazDigiMu_full/'  # path to save logs and models
+default_root_dir: 'experiments/AmazPantry_full/'  # path to save logs and models
 
 
 # training args
