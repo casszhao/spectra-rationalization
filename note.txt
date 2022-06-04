@@ -1,9 +1,12 @@
-python -m rationalizers train --config configs/factcheck/factcheck_spectra.yaml
+python -m rationalizers train --config configs/cus/seed5.yaml
+python -m rationalizers predict --config configs/cus/seed5.yaml --ck
 
 
-python -m rationalizers predict --config configs/factcheck/factcheck_spectra.yaml --ck
-
-1. 修改path
+train
+1. 修改 xxx_proc 中 train, test and dev path
 2. 修改class num
 3. 修改config yaml文件 default 地址
-4. 
+
+test
+1. 修改 xxx_proc path 中 test --> test_ood1
+2. 修改 bash 的 data == 

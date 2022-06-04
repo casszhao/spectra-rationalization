@@ -38,7 +38,6 @@ _DESCRIPTION = """\
 This dataset consists of hotel reviews from TripAdvisor
 """
 
-_URL = "https://github.com/casszhao/datasets/raw/main/factcheck.zip"
 
 
 class HotelLocationDatasetConfig(datasets.BuilderConfig):
@@ -101,9 +100,9 @@ class HotelLocationDataset(datasets.GeneratorBasedBuilder):
         # dl_dir = dl_manager.download_and_extract(_URL)
         # data_dir = dl_dir
         filepaths = {
-            "train": './datasets/factcheck/train.json',
-            "dev": './datasets/factcheck/dev.json',
-            "test": './datasets/factcheck/test.json',
+            "train": './datasets/AmazDigiMu_full/train.json',
+            "dev": './datasets/AmazDigiMu_full/dev.json',
+            "test": './datasets/AmazDigiMu_full/test.json',
         }
 
         return [
